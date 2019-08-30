@@ -1,0 +1,185 @@
+Qn 1: Difference between ‘this’ and ‘let’ and when to use what, explain with examples.
+---------------------------------------------------------------------------------------
+
+Let
+------
+‘Let’ keyword is using to declare local variables inside a block. It have block scope.Outside block it is undefined for example:
+function checkletscope(){
+  if(true){
+  let a= 20 ;
+  console.log(a);
+  }
+  console.log(a);
+  }
+  checkletscope();
+ ------------
+ Output
+ 20 
+ a is not defined
+ ----------------
+ 
+This
+-------
+‘this’  key word is a global object by default. It will return the window object if we use in a browser.  
+If we are using in a function call with ‘new’ operator it will refer to the newly created object.
+‘this’ object is the current object from where we are calling. For example
+
+ function PersonName(name){
+  this.name = name;
+  this.displayName = function(){
+    console.log('Name'+ this.name);
+  }
+  }
+  let PersonName1 = new PersonName("John");
+  PersonName1.displayName();
+  let PersonName1 = new PersonName("Peter");
+  PersonName1.displayName();
+  
+  ------------------------------
+  Output
+  Name: John
+  Name: Peter
+  
+  ---------------------------------
+  
+  
+  Qn 2:  Write a function which accepts an array of strings and returns a map of character to count of the character(including spaces and special characters).
+Eg: input: [‘hello world’, ‘hello world’]  output: {h: 2, e: 2, l: 6, ‘ ‘: 1, o: 4 …… }
+-----------------------------------------------------------------------------------------------------------------------------------------------
+function countOccurances(first){
+  let temArr = '';
+  let second = new Array();
+for(let i=0;i<first.length;i++){
+	let temp =  first[i];
+	for(let j=0;j<first[i];j++){
+		tempArr +=temp[j];
+	}
+}
+let third = tempArr;
+for(let i=0;i<tempArr.length;i++){
+	count=0;
+	var regEx=new RegExp(third[i],'g');
+	count = (tempArr.match(regEx)||[]).length;
+	console.log(third[i]+":"+count+",");
+}
+}
+var input =['hello world', 'hello world'];
+countOccurances(input);
+ 
+----------------------------------------------------------
+Output
+ h:2,
+ e:2,
+ l:6,
+ o:4,
+  :2,
+ w:2,
+ r:2,
+ d:2,
+------------------------------------------------------------------
+
+
+Qn 3:  Write a function to return all the keys present in an object at any level.
+
+Eg: input: {  a: 5, b: { c: { d: 10 } }}   output: [a, b, c, d]
+
+-------------------------------------------------------------------------------------------
+
+function returnKeys(input) {
+  var obj = {};
+  var newAr = [];
+  checkValue(input, obj, newAr);
+  return Object.keys(obj);
+}
+
+function checkValue(value, obj, newAr) {
+ if (Array.isArray(value)) return checkArray(value, obj, newAr);
+  if (value instanceof Object) return checkObject(value, obj, newAr);
+}
+function checkArray(array, obj, newAr) {
+ if (newAr.indexOf(array) >= 0) return;
+ newAr.push(array);
+ for (var i = 0, l=array.length; i < l; i++) {
+   checkValue(array[i], obj, newAr);
+  }
+}
+function checkObject(input, obj, newAr) {
+  if (newAr.indexOf(input) >= 0) return;
+  var keys = Object.keys(input);
+  for (var i = 0, l = keys.length; i < l; i++) {
+    var key = keys[i];
+    obj[key] = true;
+    checkValue(input[key], obj, newAr);
+  }
+}
+var inputArray = [{a:2,b:3,c:{d:5}}];
+var result = inputArray.map(returnKeys);
+console.log(result[0]);
+-----------------------------------------------------------------------------------
+
+Output
+
+["a","b","c","d"]
+--------------------------------------------------------------------------------------
+
+Qn 4:  Write a function to reverse every word of a string.
+
+  a)  Using split and reverse
+  b)  Without using split and reverse and in O(1) space (since strings are immutable, assume that the input is a character array).
+  
+  -------------------------------------------------------------------------------------------------------------------------------------
+  a)  Using split and reverse
+  
+function reverseString(string){
+	let words = string.split("").reverse();
+	let reverse = "";
+	for(let i=0;i<words.length;i++){
+		reverse += (i>0 ? " " : "")+ words[i];
+	}
+	return reverse;
+  }
+  var myString = reverseString('once upon a time');
+  console.log(myString);
+  
+-------------------------------------------------------------------------
+Output
+time a upon once
+----------------------------------------------------------------------------
+
+b)  Without using split and reverse and in O(1) space (since strings are immutable, assume that the input is a character array).
+
+function reverseArray(inputArray){
+	let reversed = new Array();
+	for(let i=inputArray.length-1;i>0;i--){
+		reversed.push(inputArray[i]);
+	}
+	return reversed;
+}
+let inputArray =['z','y','x','w','v'];
+let outputArray= reverseArray(inputArray);
+console.log(outputArray);
+
+-------------------------------------------------------------------------
+Output
+['v','w','x','y','z']
+
+---------------------------------------------------------------------------
+
+Qn 5  Write a function to remove duplicate strings from an array of strings.
+-----------------------------------------------------------------------------------
+function removeDuplicate(arrayString){
+	arrayString = arrayString.filter(function(item,pos){
+		return arrayString.indexOf(item)==pos;
+	});
+	return arrayString;
+}
+var country=['India','China','Egypt','France','China','Egypt']
+let noDuplicate = removeDuplicate(country);
+console.log(noDuplicate);
+
+---------------------------------------------------------
+Output
+
+['India', 'China', 'Egypt', 'France']
+-------------------------------------------------------------
+
